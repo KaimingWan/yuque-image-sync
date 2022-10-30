@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  　　　
+  <appender name="PROJECT" class="ch.qos.logback.classic.sift.SiftingAppender">
+    <discriminator>
+      <Key>destination</Key>
+      <DefaultValue>console</DefaultValue>
+    </discriminator>
+    <sift>
+      <appender name="FILE-${module}" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${user.home}/logs/hexo-yuque-java/${destination}.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+          <!-- rollover daily -->
+          <fileNamePattern>${user.home}/logs/hexo-yuque-java/${destination}-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
+          <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+            <maxFileSize>512MB</maxFileSize>
+          </timeBasedFileNamingAndTriggeringPolicy>
+          <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder>
+          <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{56} - %msg%n</pattern>
+        </encoder>
+      </appender>
+    </sift>
+  </appender>
+
+
+
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{56} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <root level="info">
+    <appender-ref ref="PROJECT"/>
+    <appender-ref ref="CONSOLE"/>
+  </root>
+</configuration>

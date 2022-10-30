@@ -21,3 +21,17 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+.gradle
+/.gradle/
+build
+target
+.idea
+
+# custom suffix file
+*.iml
+.DS_Store
+*/dependency-reduced-pom.xml
+
+### ignore release info ###
+*git.properties
