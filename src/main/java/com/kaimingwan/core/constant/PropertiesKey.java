@@ -7,4 +7,9 @@ public class PropertiesKey {
 
   public static String YUQUE_TOKEN = "yuque.token";
 
+  public static String YUQUE_REPO = "yuque.repo";
+
+  public static String YUQUE_USER = "yuque.user";
+
+
 }
