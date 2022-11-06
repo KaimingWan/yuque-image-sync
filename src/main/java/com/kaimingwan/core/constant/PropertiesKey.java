@@ -20,5 +20,11 @@ public class PropertiesKey {
   public static String ALIYUN_OSS_AK = "aliyun.oss.ak";
   public static String ALIYUN_OSS_SK = "aliyun.oss.sk";
 
+  public static String PARALLEL = "parallel";
+
+  public static String LOCAL_POST_PATH = "local.post.home";
+
+  public static String SYNC_TIMEOUT_SEC = "sync.timeout.sec";
+
 
 }

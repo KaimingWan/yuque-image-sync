@@ -2,8 +2,8 @@ package com.kaimingwan.core.openapi.oss;
 
 import com.kaimingwan.core.openapi.yuque.YuqueApi;
 import com.kaimingwan.core.service.ImageBedService;
-import com.kaimingwan.core.service.YuqueService;
-import com.kaimingwan.core.service.impl.*;
+import com.kaimingwan.core.service.impl.ConfigServiceImpl;
+import com.kaimingwan.core.service.impl.ImageBedServiceImpl;
 import com.kaimingwan.core.service.model.ImgWrapper;
 import com.kaimingwan.core.util.ImageHashUtil;
 import java.util.Properties;
@@ -21,8 +21,6 @@ public class AliyunOssApiTest extends TestCase {
 
   private static ImageBedService imageBedService;
 
-  private static YuqueService yuqueService;
-
 
   static {
     ConfigServiceImpl configServiceImpl = new ConfigServiceImpl();
@@ -30,7 +28,6 @@ public class AliyunOssApiTest extends TestCase {
     aliyunOssApi = new AliyunOssApi(confProps);
     yuqueApi = new YuqueApi(confProps);
     imageBedService = new ImageBedServiceImpl();
-    yuqueService = new YuqueServiceImpl(confProps);
   }
 
   @Test

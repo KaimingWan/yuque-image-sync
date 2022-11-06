@@ -16,7 +16,7 @@ public class ImageHashUtil {
       hash ^= c;
       hash *= 0x100000001b3L;
     }
-    return hash;
+    return Math.abs(hash);
   }
 
 }

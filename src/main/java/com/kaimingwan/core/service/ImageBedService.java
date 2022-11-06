@@ -1,6 +1,7 @@
 package com.kaimingwan.core.service;
 
 import com.kaimingwan.core.service.model.ImgWrapper;
+import java.util.List;
 
 /**
  * @author wanshao create time is  2022/11/6
@@ -17,4 +18,6 @@ public interface ImageBedService {
    */
   String parseMarkdownImageUrl(String mdImgTag);
 
+
+  List<String> parsePostMdImageTag(String mdBody);
 }

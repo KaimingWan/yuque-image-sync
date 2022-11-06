@@ -5,7 +5,7 @@ import com.kaimingwan.core.openapi.yuque.YuqueApi;
 import com.kaimingwan.core.openapi.yuque.model.YuqueDocDetail;
 import com.kaimingwan.core.openapi.yuque.resp.FetchPostDetailResp;
 import com.kaimingwan.core.service.impl.ConfigServiceImpl;
-import com.kaimingwan.core.service.impl.YuqueServiceImpl;
+import com.kaimingwan.core.service.impl.ImageBedServiceImpl;
 import java.util.List;
 import java.util.Properties;
 import junit.framework.TestCase;
@@ -13,9 +13,9 @@ import junit.framework.TestCase;
 /**
  * @author wanshao create time is  2022/11/6
  **/
-public class YuqueServiceTest extends TestCase {
+public class ImageBedServiceTest extends TestCase {
 
-  private static YuqueServiceImpl yuqueServiceImpl;
+  private static ImageBedService imageBedService;
 
   private static YuqueApi yuqueApi;
 
@@ -23,14 +23,14 @@ public class YuqueServiceTest extends TestCase {
   static {
     ConfigServiceImpl configServiceImpl = new ConfigServiceImpl();
     Properties confProps = configServiceImpl.getProperties();
-    yuqueServiceImpl = new YuqueServiceImpl(confProps);
+    imageBedService = new ImageBedServiceImpl();
     yuqueApi = new YuqueApi(confProps);
   }
 
   public void testParsePostImageUrl() {
     FetchPostDetailResp resp = yuqueApi.fetchPostDetail("ehd9u1");
     YuqueDocDetail detail = resp.getData();
-    List<String> imageUrls = yuqueServiceImpl.parsePostMdImageTag(detail);
+    List<String> imageUrls = imageBedService.parsePostMdImageTag(detail.getBody());
     if (CollectionUtil.isNotEmpty(imageUrls)) {
       imageUrls.forEach(x -> System.out.println(x));
     }

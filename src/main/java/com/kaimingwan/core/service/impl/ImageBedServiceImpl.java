@@ -6,7 +6,6 @@ import com.kaimingwan.core.http.model.ResponseData;
 import com.kaimingwan.core.service.ImageBedService;
 import com.kaimingwan.core.service.model.ImgWrapper;
 import com.kaimingwan.core.util.JacksonUtil;
-import java.io.InputStream;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,6 +14,9 @@ import java.util.regex.Pattern;
  * @author wanshao create time is  2022/11/6
  **/
 public class ImageBedServiceImpl implements ImageBedService {
+
+  private final String IMAGE_URL_REGEX = "\\!\\[.*\\]\\((.*)\\)";
+
 
   @Override
   public boolean isImageExists(String imageUrl) {
@@ -56,6 +58,23 @@ public class ImageBedServiceImpl implements ImageBedService {
     String matchedStr = matchStrs.get(0);
     //remove ( )
     return matchedStr.substring(1, matchedStr.length() - 1);
+  }
+
+
+  @Override
+  public List<String> parsePostMdImageTag(String mdBody) {
+    if (mdBody == null) {
+      throw new UnsupportedOperationException("Can't parse null content");
+    }
+    Pattern patten = Pattern.compile(IMAGE_URL_REGEX);
+    Matcher matcher = patten.matcher(mdBody);
+
+    List<String> matchStrs = new ArrayList<>();
+
+    while (matcher.find()) {
+      matchStrs.add(matcher.group());
+    }
+    return matchStrs;
   }
 
 }

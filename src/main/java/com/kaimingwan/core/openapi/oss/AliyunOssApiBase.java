@@ -5,6 +5,12 @@ package com.kaimingwan.core.openapi.oss;
  **/
 public interface AliyunOssApiBase {
 
-  void uploadImage(String originImageUrl, byte[] imgBytes, String objHashName);
+  /**
+   * @param originImageUrl
+   * @param imgBytes
+   * @param objHashName
+   * @return oss image url
+   */
+  String uploadImage(String originImageUrl, byte[] imgBytes, String objHashName);
 
 }
