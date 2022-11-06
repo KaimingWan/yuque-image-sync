@@ -2,6 +2,7 @@ package com.kaimingwan.core.openapi.yuque;
 
 import com.kaimingwan.core.constant.PropertiesKey;
 import com.kaimingwan.core.http.ConsoleHttpClient;
+import com.kaimingwan.core.openapi.yuque.resp.FetchPostDetailResp;
 import com.kaimingwan.core.openapi.yuque.resp.FetchPostResp;
 import com.kaimingwan.core.util.JacksonUtil;
 import java.util.*;
@@ -46,6 +47,12 @@ public class YuqueApi implements YuqueApiBase {
     String url = YUQUE_DOMAIN + "/repos/" + namespace + "/docs";
     String respJson = ConsoleHttpClient.getWithString(url, headers);
     return (FetchPostResp) JacksonUtil.toObj(respJson, FetchPostResp.class);
+  }
+
+  public FetchPostDetailResp fetchPostDetail(String docSlug){
+    String url = YUQUE_DOMAIN + "/repos/" + namespace + "/docs/"+docSlug;
+    String respJson = ConsoleHttpClient.getWithString(url, headers);
+    return (FetchPostDetailResp) JacksonUtil.toObj(respJson, FetchPostDetailResp.class);
   }
 
 }

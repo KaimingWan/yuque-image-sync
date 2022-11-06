@@ -7,6 +7,7 @@ import com.google.common.base.Charsets;
 import com.google.common.base.Stopwatch;
 import com.kaimingwan.core.http.model.*;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.SocketTimeoutException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -19,6 +20,7 @@ import javax.net.ssl.*;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.http.util.TextUtils;
 
 /**
  * http client based on okhttp. Will not throw runtime exception here, need to catch exception
@@ -144,6 +146,43 @@ public class ConsoleHttpClient {
         response.close();
       }
     }
+  }
+
+  public static ResponseData getImageFile(String url, Map<String, String> headers) {
+    Response response = null;
+    try {
+      response = get(url, headers);
+      if (response.code() == 200) {
+        return ResponseDataUtil.buildSuccess("success", response.body().bytes(),
+            getHeaderFileName(response));
+      } else {
+        throw new RuntimeException(
+            "execute http get fail(http code:" + response.code() + ").url:" + url);
+      }
+    } catch (Exception e) {
+      String errorMsg =
+          "handle result (" + url + ") error,msg:" + ExceptionUtils.getRootCauseMessage(e);
+      log.error(errorMsg, e);
+      throw new RuntimeException(errorMsg, e);
+    } finally {
+      if (response != null) {
+        response.close();
+      }
+    }
+  }
+
+  private static String getHeaderFileName(Response response) {
+    String dispositionHeader = response.header("Content-Disposition").toLowerCase();
+    if (!TextUtils.isEmpty(dispositionHeader)) {
+      String[] strings = dispositionHeader.split(";");
+      if (strings.length > 1) {
+        dispositionHeader = strings[1].replace("filename*=utf-8''", "");
+        dispositionHeader = dispositionHeader.replace("\"", "");
+        return dispositionHeader;
+      }
+      return "";
+    }
+    return "";
   }
 
   public static String getWithString(String url, Map<String, String> headers) {

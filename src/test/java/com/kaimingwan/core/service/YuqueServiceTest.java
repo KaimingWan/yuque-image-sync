@@ -1,43 +1,40 @@
-package com.kaimingwan.core.openapi.yuque;
-
+package com.kaimingwan.core.service;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.kaimingwan.core.openapi.yuque.model.YuqueDoc;
+import com.kaimingwan.core.openapi.yuque.YuqueApi;
 import com.kaimingwan.core.openapi.yuque.model.YuqueDocDetail;
 import com.kaimingwan.core.openapi.yuque.resp.FetchPostDetailResp;
-import com.kaimingwan.core.openapi.yuque.resp.FetchPostResp;
 import com.kaimingwan.core.service.impl.ConfigServiceImpl;
+import com.kaimingwan.core.service.impl.YuqueServiceImpl;
 import java.util.List;
 import java.util.Properties;
-import org.junit.Test;
+import junit.framework.TestCase;
 
 /**
- * @author wanshao create time is  2022/10/31
+ * @author wanshao create time is  2022/11/6
  **/
-public class YuqueApiBaseTest {
+public class YuqueServiceTest extends TestCase {
+
+  private static YuqueServiceImpl yuqueServiceImpl;
 
   private static YuqueApi yuqueApi;
+
 
   static {
     ConfigServiceImpl configServiceImpl = new ConfigServiceImpl();
     Properties confProps = configServiceImpl.getProperties();
+    yuqueServiceImpl = new YuqueServiceImpl(confProps);
     yuqueApi = new YuqueApi(confProps);
   }
 
-
-  @Test
-  public void fetchPost() {
-    FetchPostResp fetchPostResp = yuqueApi.fetchPost();
-    List<YuqueDoc> yuqueDocs = fetchPostResp.getData();
-    if (CollectionUtil.isNotEmpty(yuqueDocs)) {
-      yuqueDocs.forEach(x->System.out.println(x.getSlug()));
+  public void testParsePostImageUrl() {
+    FetchPostDetailResp resp = yuqueApi.fetchPostDetail("ehd9u1");
+    YuqueDocDetail detail = resp.getData();
+    List<String> imageUrls = yuqueServiceImpl.parsePostMdImageTag(detail);
+    if (CollectionUtil.isNotEmpty(imageUrls)) {
+      imageUrls.forEach(x -> System.out.println(x));
     }
   }
 
-  @Test
-  public void testFetchPostDetail() {
-    FetchPostDetailResp resp = yuqueApi.fetchPostDetail("ehd9u1");
-    YuqueDocDetail detail = resp.getData();
-    System.out.println(detail);
-  }
+
 }

@@ -1,6 +1,6 @@
 package com.kaimingwan.core;
 
-import com.kaimingwan.core.service.ConfigService;
+import com.kaimingwan.core.service.impl.ConfigServiceImpl;
 import java.util.Properties;
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,8 +12,8 @@ public class HexoYuqueSync {
 
   public static void main(String[] args) {
     log.info("HexoYuqueSync started.....");
-    ConfigService configService = new ConfigService();
-    Properties confProps = configService.getProperties();
+    ConfigServiceImpl configServiceImpl = new ConfigServiceImpl();
+    Properties confProps = configServiceImpl.getProperties();
 
   }
 

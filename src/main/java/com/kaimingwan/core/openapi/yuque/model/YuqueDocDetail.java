@@ -1,11 +1,15 @@
 package com.kaimingwan.core.openapi.yuque.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
 /**
  * @author wanshao create time is  2022/10/31
  * @ref https://www.yuque.com/yuque/developer/docdetailserializer
  **/
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class YuqueDocDetail {
 
   private String id;
