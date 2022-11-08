@@ -17,7 +17,7 @@ public class YuqueApi implements YuqueApiBase {
   private final String YUQUE_DOMAIN = "https://www.yuque.com/api/v2";
 
 
-  private final String INVOKER_APP_NAME = "hexo-yuque-java";
+  private final String INVOKER_APP_NAME = "yuque-image-sync";
 
   private final Properties appConf;
 

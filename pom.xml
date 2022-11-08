@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.kaimingwan</groupId>
-  <artifactId>hexo-yuque-java</artifactId>
+  <artifactId>yuque-image-sync</artifactId>
   <version>1.0.0-SNAPSHOT</version>
 
   <dependencies>
@@ -109,7 +109,7 @@
           </execution>
         </executions>
         <configuration>
-          <finalName>hexo-yuque</finalName>
+          <finalName>yuque-image-sync</finalName>
           <appendAssemblyId>false</appendAssemblyId>
           <descriptors>
             <descriptor>${basedir}/src/main/resources/assembly.xml</descriptor>

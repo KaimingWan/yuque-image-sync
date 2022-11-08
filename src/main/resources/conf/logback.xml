@@ -8,10 +8,10 @@
     </discriminator>
     <sift>
       <appender name="FILE-${module}" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${user.home}/logs/hexo-yuque-java/${destination}.log</File>
+        <File>${user.home}/logs/yuque-image-sync/${destination}.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
           <!-- rollover daily -->
-          <fileNamePattern>${user.home}/logs/hexo-yuque-java/${destination}-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
+          <fileNamePattern>${user.home}/logs/yuque-image-sync/${destination}-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
           <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
             <maxFileSize>512MB</maxFileSize>
           </timeBasedFileNamingAndTriggeringPolicy>
