@@ -114,7 +114,7 @@
           <descriptors>
             <descriptor>${basedir}/src/main/resources/assembly.xml</descriptor>
           </descriptors>
-          <finalName>hexo-yuque</finalName>
+          <finalName>yuque-image-sync</finalName>
           <outputDirectory>${project.build.directory}</outputDirectory>
         </configuration>
       </plugin>
