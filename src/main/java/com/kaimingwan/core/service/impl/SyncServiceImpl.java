@@ -73,9 +73,11 @@ public class SyncServiceImpl implements SyncService {
       futures.add(threadPool.submit(new SyncWorker(docs)));
     }
 
-    for (Future future : futures) {
+    for (int i = 0; i < futures.size(); i++) {
       try {
+        Future future = futures.get(i);
         future.get(syncTimeoutSec, TimeUnit.SECONDS);
+        log.info("Finish fetch future result index " + i);
       } catch (Exception e) {
         String errMsg =
             "Some posts sync failed. Root cause is " + ExceptionUtils.getRootCauseMessage(e);
@@ -104,7 +106,7 @@ public class SyncServiceImpl implements SyncService {
 
     @Override
     public void run() {
-      log.info("Begin fetch doc detail....");
+      log.info("Begin fetch doc detail, total detail doc size is " + yuqueDocs.size());
       for (YuqueDoc yuqueDoc : yuqueDocs) {
         log.info("Begin to download yuque post " + yuqueDoc.getTitle());
         String docBody = yuqueApi.fetchPostDetail(yuqueDoc.getSlug()).getData().getBody();
@@ -112,7 +114,7 @@ public class SyncServiceImpl implements SyncService {
         List<String> imgUrls = new ArrayList<>();
         if (CollectionUtil.isEmpty(mdImgTags)) {
           writeOutProcessedPosts(docBody, yuqueDoc.getSlug());
-          return;
+          continue;
         }
 
         mdImgTags.forEach(x -> imgUrls.add(imageBedService.parseMarkdownImageUrl(x)));
@@ -130,7 +132,5 @@ public class SyncServiceImpl implements SyncService {
         log.info("Finish sync processed images. Total count is " + imgUrls.size());
       }
     }
-
-
   }
 }

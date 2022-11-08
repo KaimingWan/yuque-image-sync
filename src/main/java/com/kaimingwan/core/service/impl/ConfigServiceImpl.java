@@ -17,7 +17,7 @@ public class ConfigServiceImpl implements ConfigService {
   public Properties getProperties() {
     String classPath = this.getClass().getClassLoader().getResource("").getPath();
     File classFile = new File(classPath);
-    String confPath = classFile.getParent() + "/../conf/conf.properties";
+    String confPath = classFile.getParent() + "/conf/conf.properties";
 
     File confFile = new File(confPath);
     if (!confFile.exists()) {
