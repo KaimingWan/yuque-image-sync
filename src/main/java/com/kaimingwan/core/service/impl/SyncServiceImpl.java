@@ -17,6 +17,8 @@ import com.kaimingwan.core.util.ImageHashUtil;
 import java.io.File;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -92,7 +94,27 @@ public class SyncServiceImpl implements SyncService {
   @SneakyThrows
   @Override
   public void writeOutProcessedPosts(String content, String fileName) {
+    content = formatContent(content, "<div style=\"display:none\">[\\s\\S]*?<\\/div>", "");
+    content = formatContent(content, "(<br>[\\s\\n]){2}", "<br>");
+    content = formatContent(content, "(<br \\/>[\\n]?){2}", "<br />\n");
+    content = formatContent(content, "<br \\/>", "\n");
+    content = formatContent(content, "<a name=\\\".*?\\\"><\\/a>", "");
+
+
+
     FileUtils.writeStringToFile(new File(postHome + "/" + fileName + ".md"), content);
+  }
+
+
+  protected String formatContent(String content,String regex,String newVal){
+
+    Pattern patten = Pattern.compile(regex);
+    Matcher matcher = patten.matcher(content);
+
+    while (matcher.find()) {
+     content = content.replaceAll(matcher.group(),newVal);
+    }
+    return content;
   }
 
 
