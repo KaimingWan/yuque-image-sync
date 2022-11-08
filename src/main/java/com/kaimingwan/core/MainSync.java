@@ -11,10 +11,10 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
  * @author wanshao create time is  2022/10/30
  **/
 @Slf4j
-public class HexoYuqueSync {
+public class MainSync {
 
   public static void main(String[] args) {
-    log.info("HexoYuqueSync started.....");
+    log.info("Main sync started.....");
     try {
       ConfigServiceImpl configServiceImpl = new ConfigServiceImpl();
       Properties confProps = configServiceImpl.getProperties();

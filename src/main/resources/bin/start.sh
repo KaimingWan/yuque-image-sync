@@ -20,7 +20,7 @@ JAVA_OPTS="${JAVA_OPTS} -Xloggc:${LOG_PATH}/gc.log"
 JAVA_OPTS="${JAVA_OPTS} -Djava.awt.headless=true -Djava.net.preferIPv4Stack=true -Dfile.encoding=UTF-8"
 JAVA_OPTS="${JAVA_OPTS} -XX:MetaspaceSize=64m"
 
-MAINCLASS=com.kaimingwan.core.HexoYuqueSync
+MAINCLASS=com.kaimingwan.core.MainSync
 echo "java $JAVA_OPTS -classpath .:$CLASSPATH $MAINCLASS 1>>/dev/null 2>&1 &"
 
 java -classpath .:$CLASSPATH  $MAINCLASS 1>>/dev/null 2>&1 &
