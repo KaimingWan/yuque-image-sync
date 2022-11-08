@@ -17,12 +17,12 @@ public class ConfigServiceImpl implements ConfigService {
   public Properties getProperties() {
     String classPath = this.getClass().getClassLoader().getResource("").getPath();
     File classFile = new File(classPath);
-    String confPath = classFile.getParent() + "/conf/conf.properties";
+    String confPath = classFile.getParent() + "/conf.properties";
 
     File confFile = new File(confPath);
     if (!confFile.exists()) {
       log.warn("Not exists conf file in " + confPath + ", will load file from classpath");
-      String confClassPath = this.getClass().getClassLoader().getResource("conf/conf.properties")
+      String confClassPath = this.getClass().getClassLoader().getResource("conf.properties")
           .getPath();
       confFile = new File(confClassPath);
     }

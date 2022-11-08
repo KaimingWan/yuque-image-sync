@@ -3,6 +3,7 @@ package com.kaimingwan.core;
 import com.kaimingwan.core.service.SyncService;
 import com.kaimingwan.core.service.impl.ConfigServiceImpl;
 import com.kaimingwan.core.service.impl.SyncServiceImpl;
+import java.io.InputStream;
 import java.util.Properties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;

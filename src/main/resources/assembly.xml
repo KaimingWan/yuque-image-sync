@@ -22,7 +22,7 @@
       <directory>${project.basedir}/target/classes</directory>
       <includes>
         <include>conf/conf.properties</include>
-        <include>conf/logback.xml</include>
+        <include>logback.xml</include>
       </includes>
       <fileMode>0755</fileMode>
       <outputDirectory>./</outputDirectory>
