@@ -21,11 +21,11 @@
     <fileSet>
       <directory>${project.basedir}/target/classes</directory>
       <includes>
-        <include>conf/conf.properties</include>
+        <include>conf.properties</include>
         <include>logback.xml</include>
       </includes>
       <fileMode>0755</fileMode>
-      <outputDirectory>./</outputDirectory>
+      <outputDirectory>conf</outputDirectory>
     </fileSet>
   </fileSets>
   <dependencySets>
