@@ -1,6 +1,23 @@
 #!/bin/bash
 
-for i in ../lib/*;
+current_path=$(pwd)
+case "$(uname)" in
+Linux)
+  bin_abs_path=$(readlink -f $(dirname $0))
+  ;;
+*)
+  bin_abs_path=$(
+    cd $(dirname $0)
+    pwd
+  )
+  ;;
+esac
+
+base=${bin_abs_path}/..
+echo $base
+export LANG=en_US.UTF-8
+
+for i in $base/lib/*;
 	do CLASSPATH=$i:"$CLASSPATH";
 done
  	CLASSPATH="$base/conf:$CLASSPATH";
