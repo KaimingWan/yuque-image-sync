@@ -14,11 +14,15 @@ import com.kaimingwan.core.service.SyncService;
 import com.kaimingwan.core.service.model.ImgWrapper;
 import com.kaimingwan.core.thread.NamedThreadFactory;
 import com.kaimingwan.core.util.ImageHashUtil;
+import com.kaimingwan.core.util.TimeUtil;
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -46,6 +50,8 @@ public class SyncServiceImpl implements SyncService {
 
   private final int syncTimeoutSec;
 
+  private final int newDocIntervalSec;
+
   public SyncServiceImpl(Properties conf) {
     aliyunOssApi = new AliyunOssApi(conf);
     yuqueApi = new YuqueApi(conf);
@@ -57,6 +63,7 @@ public class SyncServiceImpl implements SyncService {
     this.paralle = Integer.valueOf(conf.getProperty(PropertiesKey.PARALLEL));
     this.postHome = conf.getProperty(PropertiesKey.LOCAL_POST_PATH);
     this.syncTimeoutSec = Integer.valueOf(conf.getProperty(PropertiesKey.SYNC_TIMEOUT_SEC));
+    this.newDocIntervalSec = Integer.valueOf(conf.getProperty(PropertiesKey.NEW_DOC_INTERVAL_SEC));
   }
 
   @SneakyThrows
@@ -66,9 +73,31 @@ public class SyncServiceImpl implements SyncService {
     FetchPostResp fetchPostResp = yuqueApi.fetchPost();
     log.info("Total download post count " + fetchPostResp.getData().size());
 
-    int subListSize = fetchPostResp.getData().size() / paralle + 1;
+    if (fetchPostResp.getData() == null || fetchPostResp.getData().size() == 0) {
+      log.warn("There is no docs need to sync....");
+    }
+    List<YuqueDoc> allDocs = fetchPostResp.getData();
+    List<YuqueDoc> publishedDocs = allDocs.stream().filter(x -> x.getPublicDoc() && x.getStatus())
+        .collect(Collectors.toList());
 
-    List<List<YuqueDoc>> splitList = Lists.partition(fetchPostResp.getData(), subListSize);
+    List<YuqueDoc> latestDocs = new ArrayList<>();
+    if (newDocIntervalSec > 0) {
+      String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+      for (YuqueDoc publicDoc : publishedDocs) {
+        LocalDateTime localDateTime = LocalDateTime.parse(publicDoc.getUpdated_at(), DateTimeFormatter.ofPattern(pattern));
+        boolean isNewDoc =  localDateTime.isAfter(TimeUtil.getLocalDateTimeByMillis(
+            System.currentTimeMillis() - newDocIntervalSec * 1000));
+        if (isNewDoc) {
+          latestDocs.add(publicDoc);
+        }
+      }
+    }else{
+      latestDocs = publishedDocs;
+    }
+
+    int subListSize = latestDocs.size() / paralle + 1;
+
+    List<List<YuqueDoc>> splitList = Lists.partition(latestDocs, subListSize);
 
     List<Future> futures = new ArrayList<>();
     for (List<YuqueDoc> docs : splitList) {
@@ -100,19 +129,17 @@ public class SyncServiceImpl implements SyncService {
     content = formatContent(content, "<br \\/>", "\n");
     content = formatContent(content, "<a name=\\\".*?\\\"><\\/a>", "");
 
-
-
     FileUtils.writeStringToFile(new File(postHome + "/" + fileName + ".md"), content);
   }
 
 
-  protected String formatContent(String content,String regex,String newVal){
+  protected String formatContent(String content, String regex, String newVal) {
 
     Pattern patten = Pattern.compile(regex);
     Matcher matcher = patten.matcher(content);
 
     while (matcher.find()) {
-     content = content.replaceAll(matcher.group(),newVal);
+      content = content.replaceAll(matcher.group(), newVal);
     }
     return content;
   }

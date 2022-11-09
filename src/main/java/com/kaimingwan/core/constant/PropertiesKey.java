@@ -26,5 +26,7 @@ public class PropertiesKey {
 
   public static String SYNC_TIMEOUT_SEC = "sync.timeout.sec";
 
+  public static String NEW_DOC_INTERVAL_SEC = "yuque.new.interval.sec";
+
 
 }
