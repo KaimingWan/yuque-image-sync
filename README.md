@@ -1,4 +1,6 @@
 ## yuque-image-sync
+
+### 基本说明
 支持自动下载语雀文章，将文章中所有图片上传图床(例如阿里云OSS)后替换文
 章中图片地址为图床地址，将处理好的markdown源文件保存到指定位置。理论上可兼容多种博客系统，例如Docusaurus、Hexo等。我自己个人网站用的hexo暂时就只测试了hexo.
 
@@ -15,3 +17,7 @@
 |parallel| 并行度，一般设置成和你核心数一样就可以                                               |
 |local.post.home| 处理后的markdown源文件需要保存的位置                                            |
 |sync.timeout.sec| 每个线程获取异步处理结果的超时时间                                                 |
+
+### 使用教程
+可以参考我个人网站的使用说明[语雀文章自动同步Hexo](https://kaimingwan.com)
+

@@ -50,7 +50,7 @@ public class YuqueApi implements YuqueApiBase {
   }
 
   public FetchPostDetailResp fetchPostDetail(String docSlug){
-    String url = YUQUE_DOMAIN + "/repos/" + namespace + "/docs/"+docSlug;
+    String url = YUQUE_DOMAIN + "/repos/" + namespace + "/docs/"+docSlug+"?raw=1";
     String respJson = ConsoleHttpClient.getWithString(url, headers);
     return (FetchPostDetailResp) JacksonUtil.toObj(respJson, FetchPostDetailResp.class);
   }

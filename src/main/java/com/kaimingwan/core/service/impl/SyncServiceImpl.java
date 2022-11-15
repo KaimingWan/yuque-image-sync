@@ -84,15 +84,22 @@ public class SyncServiceImpl implements SyncService {
     if (newDocIntervalSec > 0) {
       String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
       for (YuqueDoc publicDoc : publishedDocs) {
-        LocalDateTime localDateTime = LocalDateTime.parse(publicDoc.getUpdated_at(), DateTimeFormatter.ofPattern(pattern));
-        boolean isNewDoc =  localDateTime.isAfter(TimeUtil.getLocalDateTimeByMillis(
+        //update time is UTC
+        LocalDateTime updateTime = LocalDateTime.parse(publicDoc.getUpdated_at(),
+            DateTimeFormatter.ofPattern(pattern));
+        updateTime = updateTime.plusHours(8);
+        boolean isNewDoc = updateTime.isAfter(TimeUtil.getLocalDateTimeByMillis(
             System.currentTimeMillis() - newDocIntervalSec * 1000));
         if (isNewDoc) {
           latestDocs.add(publicDoc);
         }
       }
-    }else{
+    } else {
       latestDocs = publishedDocs;
+    }
+
+    if (CollectionUtil.isEmpty(latestDocs)) {
+      log.warn("There is no new doc need to process, will exit....");
     }
 
     int subListSize = latestDocs.size() / paralle + 1;
