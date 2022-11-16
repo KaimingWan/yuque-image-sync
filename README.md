@@ -19,5 +19,5 @@
 |sync.timeout.sec| 每个线程获取异步处理结果的超时时间                                                 |
 
 ### 使用教程
-可以参考我个人网站的使用说明[语雀文章自动同步Hexo](https://kaimingwan.com)
+可以参考我个人网站的使用说明[语雀文章自动同步Hexo](https://kaimingwan.com/2022/11/15/ziegq7wzsoyboeyg/)
 
